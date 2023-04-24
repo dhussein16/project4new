@@ -5,7 +5,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
-/* fuck u bitch ass hoe
+/*
     THE THING DOESNT ACTUALLY WORK YET WE GET A BUNCH OF ERRORS SO WE NEED TO FIX A BUNCH OF SHIT IN THE OTHER FILES TO
     GET THIS SHIT WORKING.
  */
