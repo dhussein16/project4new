@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="fxmlExample" />
+        <module name="project4new" />
       </profile>
     </annotationProcessing>
   </component>
