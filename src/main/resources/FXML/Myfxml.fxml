@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+
+<?import javafx.scene.layout.BorderPane?>
+<VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="vbox" fx:controller = "MyController"
+	  fx:id = "root">
+	
+	<BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="border">
+		<right><Button fx:id = "clientConfirm" text = "Client" onAction = "#clientLaunch"/></right>
+		<left><Button fx:id = "serverConfirm2" text = "Server" onAction = "#serverLaunch"/></left>
+	</BorderPane >
+	
+</VBox>
+
