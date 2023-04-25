@@ -56,6 +56,8 @@ public class MyController implements Initializable {
 				listItems.getItems().add(data.toString());
 			});
 		});
+
+		// server needs to look like how it does on the original, how to do that?
 	}
 
 	// sends over whatever the client has written to the client
