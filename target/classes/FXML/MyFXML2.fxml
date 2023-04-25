@@ -8,7 +8,7 @@
               fx:id = "root2" styleClass="border" fx:controller = "MyController">
 	<!-- TODO Add Nodes -->
 	
-	<bottom><Button fx:id = "b1" text = "Send String to Server" /></bottom>
+	<bottom><Button fx:id = "sendStringToServer" text = "Send String to Server" onAction = "#clientSendOver"/></bottom>
 	<top><TextField fx:id = "textField" promptText = "Enter your string to send to the server"/></top>
 </BorderPane>
 

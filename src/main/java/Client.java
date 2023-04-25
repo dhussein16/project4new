@@ -9,7 +9,6 @@ public class Client extends Thread{
 
 
     Socket socketClient;
-
     ObjectOutputStream out;
     ObjectInputStream in;
 
