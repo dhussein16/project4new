@@ -9,8 +9,8 @@
 	  fx:id = "root">
 	
 	<BorderPane xmlns:fx="http://javafx.com/fxml/1" styleClass="border">
-		<right><Button fx:id = "clientConfirm" text = "Client" onAction = "#clientLaunch"/></right>
-		<left><Button fx:id = "serverConfirm2" text = "Server" onAction = "#serverLaunch"/></left>
+		<right><Button fx:id = "serverConfirm" text = "Server" onAction = "#serverLaunch"/></right>
+		<left><Button fx:id = "clientConfirm" text = "Client" onAction = "#clientLaunch"/></left>
 	</BorderPane >
 	
 </VBox>
