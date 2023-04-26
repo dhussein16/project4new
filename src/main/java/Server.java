@@ -5,29 +5,36 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.function.Consumer;
+import java.io.*;
+import java.net.*;
+import java.util.*;
 
 import javafx.application.Platform;
 import javafx.scene.control.ListView;
 
 public class Server{
-
+    private ServerSocket serverSocket;
+    public Server(ServerSocket serverSocket){
+        this.serverSocket = serverSocket;
+    }
     int count = 1;
-    ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
-    TheServer server;
-    private Consumer<Serializable> callback;
+    //ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
+   // TheServer server;
+    private static Consumer<Serializable> callback;
+    private List<String> clientList = new ArrayList<>();
 
 
     Server(Consumer<Serializable> call){
 
         callback = call;
-        server = new TheServer();
-        server.start();
+//        server = new TheServer();
+//        server.start();
     }
 
 
-    public class TheServer extends Thread{
+//    public class TheServer extends Thread{
 
-        public void run() {
+        public static void run() {
 
             try(ServerSocket mysocket = new ServerSocket(5555);){
                 System.out.println("Server is waiting for a client!");
@@ -35,80 +42,92 @@ public class Server{
 
                 while(true) {
 
-                    ClientThread c = new ClientThread(mysocket.accept(), count);
-                    callback.accept("client has connected to server: " + "client #" + count);
-                    clients.add(c);
-                    c.start();
 
-                    count++;
+                    Socket s = mysocket.accept();
+                    System.out.println("Client connected: " + s);
+                    ClientHandler c = new ClientHandler(s);
+                    // callback.accept("client has connected to server: " + "client #" + count);
+
+                    Thread thread = new Thread(c);
+
+                    thread.start();
+
+                    //count++;
 
                 }
             }//end of try
             catch(Exception e) {
-                callback.accept("Server socket did not launch");
+               // callback.accept("Server socket did not launch");
             }
         }//end of while
+
+
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(5555);
+        Server server = new Server(serverSocket);
+        Server.run();
     }
 
 
-    class ClientThread extends Thread{
 
 
-        Socket connection;
-        int count;
-        ObjectInputStream in;
-        ObjectOutputStream out;
-
-        ClientThread(Socket s, int count){
-            this.connection = s;
-            this.count = count;
-        }
-
-        public void updateClients(String message) {
-            for(int i = 0; i < clients.size(); i++) {
-                ClientThread t = clients.get(i);
-                try {
-                    t.out.writeObject(message);
-                }
-                catch(Exception e) {}
-            }
-        }
-
-        public void run(){
-
-            try {
-                in = new ObjectInputStream(connection.getInputStream());
-                out = new ObjectOutputStream(connection.getOutputStream());
-                connection.setTcpNoDelay(true);
-            }
-            catch(Exception e) {
-                System.out.println("Streams not open");
-            }
-
-            updateClients("new client on server: client #"+count);
-
-            while(true) {
-                try {
-                    String data = in.readObject().toString();
-                    callback.accept("client: " + count + " sent: " + data);
-                    updateClients("client #"+count+" said: "+data);
-
-                }
-                catch(Exception e) {
-                    callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
-                    updateClients("Client #"+count+" has left the server!");
-                    clients.remove(this);
-                    break;
-                }
-            }
-        }//end of run
-
-
-    }//end of client thread
+//    class ClientThread extends Thread{
+//
+//
+//        Socket connection;
+//        int count;
+//        ObjectInputStream in;
+//        ObjectOutputStream out;
+//
+//        ClientThread(Socket s, int count){
+//            this.connection = s;
+//            this.count = count;
+//        }
+//
+//        public void updateClients1(String message) {
+//            for(int i = 0; i < clients.size(); i++) {
+//                ClientThread t = clients.get(i);
+//                try {
+//                    t.out.writeObject(message);
+//                    //
+//                    t.out.reset();
+//                }
+//                catch(Exception e) {}
+//            }
+//        }
+//
+//
+//
+//        public void run(){
+//
+//            try {
+//                in = new ObjectInputStream(connection.getInputStream());
+//                out = new ObjectOutputStream(connection.getOutputStream());
+//                connection.setTcpNoDelay(true);
+//            }
+//            catch(Exception e) {
+//                System.out.println("Streams not open");
+//            }
+//
+//            updateClients1("new client on server: client #"+count);
+//
+//            while(true) {
+//                try {
+//                    String data = in.readObject().toString();
+//                    callback.accept("client: " + count + " sent: " + data);
+//                    updateClients1("client #"+count+" said: "+data);
+//
+//                }
+//                catch(Exception e) {
+//                    callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
+//                    updateClients1("Client #"+count+" has left the server!");
+//                    clients.remove(this);
+//                    break;
+//                }
+//            }
+//        }//end of run
+//
+//
+//    }//end of client thread
 }
-
-
-
-
-
-
