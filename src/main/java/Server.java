@@ -17,33 +17,17 @@ public class Server{
     public Server(ServerSocket serverSocket){
         this.serverSocket = serverSocket;
     }
-    int count = 1;
-    //ArrayList<ClientThread> clients = new ArrayList<ClientThread>();
-   // TheServer server;
-    private static Consumer<Serializable> callback;
-    private List<String> clientList = new ArrayList<>();
 
+        public void run() {
 
-    Server(Consumer<Serializable> call){
-
-        callback = call;
-//        server = new TheServer();
-//        server.start();
-    }
-
-
-//    public class TheServer extends Thread{
-
-        public static void run() {
-
-            try(ServerSocket mysocket = new ServerSocket(5555);){
+            try{
                 System.out.println("Server is waiting for a client!");
 
 
-                while(true) {
+                while(!serverSocket.isClosed()) {
 
 
-                    Socket s = mysocket.accept();
+                    Socket s = serverSocket.accept();
                     System.out.println("Client connected: " + s);
                     ClientHandler c = new ClientHandler(s);
                     // callback.accept("client has connected to server: " + "client #" + count);
@@ -56,17 +40,25 @@ public class Server{
 
                 }
             }//end of try
-            catch(Exception e) {
+            catch(IOException e) {
                // callback.accept("Server socket did not launch");
             }
         }//end of while
 
-
+    public void closeServer(){
+        try{
+            if(serverSocket != null){
+                serverSocket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = new ServerSocket(5555);
         Server server = new Server(serverSocket);
-        Server.run();
+        server.run();
     }
 
 

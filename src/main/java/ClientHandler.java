@@ -14,13 +14,13 @@ public class ClientHandler implements Runnable {
             this.readin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.readout = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             clientHandlers.add(this);
-            for(int i = 0;i>0;i++){
-                this.clientUsername = ("Client"+ i);
-            }
+
+            this.clientUsername = readin.readLine();
+
             broadcastMessage("Server:" + clientUsername+" has entered!");
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            closestuff(socket,readin,readout);
         }
     }
     @Override
@@ -31,11 +31,30 @@ public class ClientHandler implements Runnable {
                 messageFromClient = readin.readLine();
                 broadcastMessage(messageFromClient);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                closestuff(socket,readin,readout);
+                break;
             }
         }
 
     }
+
+    private void closestuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
+        removeClient();
+        try{
+            if(readin != null){
+                readin.close();
+            }
+            if(readout != null){
+                readout.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void broadcastMessage(String message){
         for(ClientHandler clienthandler : clientHandlers){
             try{
@@ -45,7 +64,7 @@ public class ClientHandler implements Runnable {
                     clienthandler.readout.flush();
                 }
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                closestuff(socket,readin,readout);
             }
         }
     }

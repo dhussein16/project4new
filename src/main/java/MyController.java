@@ -56,11 +56,11 @@ public class MyController implements Initializable {
 		root.getScene().setRoot(root2);//update scene graph
 
 		// took this from the GUI server example
-		serverConnection = new Server(data -> {
-			Platform.runLater(()->{
-				listItems.getItems().add(data.toString());
-			});
-		});
+//		serverConnection = new Server(data -> {
+//			Platform.runLater(()->{
+//				listItems.getItems().add(data.toString());
+//			});
+//		});
 
 		// server needs to look like how it does on the original, how to do that?
 	}

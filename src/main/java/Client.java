@@ -17,9 +17,27 @@ public class Client {
             this.readout = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
             this.username = username;
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            closeeverything(socketClient,readin,readout);
         }
     }
+
+    private void closeeverything(Socket socketClient, BufferedReader readin, BufferedWriter readout) {
+        try{
+            if(readin != null){
+                readin.close();
+            }
+            if(readout != null){
+                readout.close();
+            }
+            if (socketClient != null) {
+                socketClient.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void sendMessage(){
         try{
             readout.write(username);
@@ -34,20 +52,21 @@ public class Client {
 
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            closeeverything(socketClient,readin,readout);
+
         }
     }
     public void listenForMessage(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-String groupchat;
-try{
-    groupchat = readin.readLine();
-    System.out.println(groupchat);
-} catch (IOException e) {
-    throw new RuntimeException(e);
-}
+                String groupchat;
+                try{
+                    groupchat = readin.readLine();
+                    System.out.println(groupchat);
+                } catch (IOException e) {
+                    closeeverything(socketClient,readin,readout);
+                }
             }
         }).start();
     }
@@ -55,7 +74,7 @@ try{
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter ur username whore");
         String username = scanner.nextLine();
-        Socket socket = new Socket("localhost", 5555);
+        Socket socket = new Socket("localhost",5555);
         Client client = new Client(socket,username);
         client.sendMessage();
     }
