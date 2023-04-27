@@ -13,10 +13,10 @@ public class ClientHandler implements Runnable {
             this.socket = socket;
             this.readin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.readout = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            clientHandlers.add(this);
+
 
             this.clientUsername = readin.readLine();
-
+            clientHandlers.add(this);
             broadcastMessage("Server:" + clientUsername+" has entered!");
 
         } catch (IOException e) {
@@ -38,22 +38,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-    private void closestuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
-        removeClient();
-        try{
-            if(readin != null){
-                readin.close();
-            }
-            if(readout != null){
-                readout.close();
-            }
-            if (socket != null) {
-                socket.close();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+
 
     public void broadcastMessage(String message){
         for(ClientHandler clienthandler : clientHandlers){
@@ -71,5 +56,21 @@ public class ClientHandler implements Runnable {
     public void removeClient(){
         clientHandlers.remove(this);
         broadcastMessage("Server: "+clientUsername+"has left the fucking chat!");
+    }
+    private void closestuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
+        removeClient();
+        try{
+            if(readin != null){
+                readin.close();
+            }
+            if(readout != null){
+                readout.close();
+            }
+            if (socket != null) {
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

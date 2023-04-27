@@ -6,23 +6,23 @@ import java.util.function.Consumer;
 public class Client {
 
 
-    Socket socketClient;
+    private Socket socket;
     private BufferedReader readin;
     private BufferedWriter readout;
     private String username;
     public Client(Socket socket, String username){
         try{
-            this.socketClient = socket;
-            this.readin = new BufferedReader(new InputStreamReader(socketClient.getInputStream()));
-            this.readout = new BufferedWriter(new OutputStreamWriter(socketClient.getOutputStream()));
+            this.socket = socket;
+            this.readin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            this.readout = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
             this.username = username;
         } catch (IOException e) {
 
-            closeeverything(socketClient,readin,readout);
+            closeeverything(socket,readin,readout);
         }
     }
 
-    private void closeeverything(Socket socketClient, BufferedReader readin, BufferedWriter readout) {
+    private void closeeverything(Socket socket, BufferedReader readin, BufferedWriter readout) {
         try{
             if(readin != null){
                 readin.close();
@@ -30,8 +30,8 @@ public class Client {
             if(readout != null){
                 readout.close();
             }
-            if (socketClient != null) {
-                socketClient.close();
+            if (socket != null) {
+                socket.close();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,7 +44,7 @@ public class Client {
             readout.newLine();
             readout.flush();
             Scanner scanner = new Scanner(System.in);
-            while(socketClient.isConnected()){
+            while(socket.isConnected()){
                 String messageToSend = scanner.nextLine();
                 readout.write(username + ":" + messageToSend);
                 readout.newLine();
@@ -52,21 +52,18 @@ public class Client {
 
             }
         } catch (IOException e) {
-            closeeverything(socketClient,readin,readout);
+            closeeverything(socket,readin,readout);
 
         }
     }
     public void listenForMessage(){
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String groupchat;
-                try{
-                    groupchat = readin.readLine();
-                    System.out.println(groupchat);
-                } catch (IOException e) {
-                    closeeverything(socketClient,readin,readout);
-                }
+        new Thread(() -> {
+            String groupchat;
+            try{
+                groupchat = readin.readLine();
+                System.out.println(groupchat);
+            } catch (IOException e) {
+                closeeverything(socket,readin,readout);
             }
         }).start();
     }
@@ -76,6 +73,7 @@ public class Client {
         String username = scanner.nextLine();
         Socket socket = new Socket("localhost",5555);
         Client client = new Client(socket,username);
+        client.listenForMessage();
         client.sendMessage();
     }
 

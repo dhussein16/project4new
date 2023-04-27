@@ -41,7 +41,7 @@ public class Server{
                 }
             }//end of try
             catch(IOException e) {
-               // callback.accept("Server socket did not launch");
+               closeServer();
             }
         }//end of while
 
