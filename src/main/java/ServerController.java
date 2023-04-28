@@ -35,6 +35,7 @@ public class ServerController implements Initializable{
         serverConnection = new Server(data -> {
 			Platform.runLater(()->{
 				listItems.getItems().add(data.toString());
+                // your mom
 			});
 		});
     }
