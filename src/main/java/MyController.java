@@ -31,8 +31,6 @@ public class MyController implements Initializable {
 	@FXML
 	private Button sendStringToServer;
 
-	Server serverConnection;
-	Client clientConnection;
 	@FXML
 	ListView<String> listItems, listItems2;
 
@@ -60,13 +58,10 @@ public class MyController implements Initializable {
 		root2.getStylesheets().add("/styles/style2.css");//set style
 		root.getScene().setRoot(root2);//update scene graph
 		// loadData();
+		//TODO: connect this to your server controller and call the runlater THERE
 
 		// took this from the GUI server example
-//		serverConnection = new Server(data -> {
-//			Platform.runLater(()->{
-//				listItems.getItems().add(data.toString());
-//			});
-//		});
+//
 
 		// server needs to look like how it does on the original, how to do that?
 	}
@@ -84,6 +79,7 @@ public class MyController implements Initializable {
 		Parent root2 = loader.load(); //load view into parent
 		root2.getStylesheets().add("/styles/style2.css");//set style
 		root.getScene().setRoot(root2);//update scene graph
+		//TODO: call the client controller and run the runLater THERE you already have it, you need to update it now
 
 		// took this from the GUI server example
 //		clientConnection = new Client(data->{
