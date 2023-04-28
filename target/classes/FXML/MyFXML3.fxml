@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+
+<!--THIS WILL BE USED FOR THE SERVER-->
+<?import javafx.scene.control.ListView?>
+<?import javafx.geometry.Insets?>
+<BorderPane xmlns:fx="http://javafx.com/fxml/1" fx:id = "root2" styleClass="border" fx:controller = "MyController">
+    <padding>
+        <Insets top="20" right="20" bottom="20" left="20"/>
+    </padding>
+    <!-- TODO Add Nodes -->
+    <?import javafx.scene.layout.GridPane?>
+    <?import javafx.scene.control.ListView?>
+
+    <!--    <GridPane xmlns:fx="http://javafx.com/fxml" alignment="CENTER">-->
+    <!--        <ListView fx:id="listItems"/>-->
+    <!--    </GridPane>-->
+
+    <center><ListView fx:id = "listItems" layoutX="70" layoutY="70" prefWidth = "300" prefHeight = "300" ></ListView></center>
+
+</BorderPane>
