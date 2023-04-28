@@ -4,6 +4,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.TextField?>
 
+<!--THIS WILL BE USED FOR THE BEGINNING SCREEN-->
 <?import javafx.scene.layout.BorderPane?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" styleClass="vbox" fx:controller = "MyController"
 	  fx:id = "root">
