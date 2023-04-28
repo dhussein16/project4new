@@ -8,28 +8,26 @@ public class ClientHandler implements Runnable {
     private BufferedReader readin;
     private BufferedWriter readout;
     private String clientUsername;
+
     public ClientHandler(Socket socket){
         try{
             this.socket = socket;
             this.readin = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             this.readout = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-<<<<<<< HEAD
+//<<<<<<< HEAD
             clientHandlers.add(this);
 
             this.clientUsername = readin.readLine();
-
-=======
-
-
             this.clientUsername = readin.readLine();
             clientHandlers.add(this);
->>>>>>> origin/master
+
             broadcastMessage("Server:" + clientUsername+" has entered!");
 
         } catch (IOException e) {
             closestuff(socket,readin,readout);
         }
     }
+
     @Override
     public void run() {
         String messageFromClient;
@@ -45,7 +43,7 @@ public class ClientHandler implements Runnable {
 
     }
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
     private void closestuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
         removeClient();
         try{
@@ -62,9 +60,9 @@ public class ClientHandler implements Runnable {
             e.printStackTrace();
         }
     }
-=======
 
->>>>>>> origin/master
+//=======
+//>>>>>>> origin/master
 
     public void broadcastMessage(String message){
         for(ClientHandler clienthandler : clientHandlers){
@@ -83,10 +81,10 @@ public class ClientHandler implements Runnable {
         clientHandlers.remove(this);
         broadcastMessage("Server: "+clientUsername+"has left the fucking chat!");
     }
-<<<<<<< HEAD
-}
-=======
-    private void closestuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
+//<<<<<<< HEAD
+
+//=======
+    private void clostuff(Socket socket, BufferedReader readin, BufferedWriter readout) {
         removeClient();
         try{
             if(readin != null){
@@ -103,4 +101,4 @@ public class ClientHandler implements Runnable {
         }
     }
 }
->>>>>>> origin/master
+//>>>>>>> origin/master

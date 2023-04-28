@@ -18,7 +18,6 @@ public class Server{
 
 
     Server(Consumer<Serializable> call){
-
         callback = call;
         server = new TheServer();
         server.start();
@@ -37,7 +36,7 @@ public class Server{
 
                     ClientThread c = new ClientThread(mysocket.accept(), count);
                     callback.accept("client has connected to server: " + "client #" + count);
-                    //TODO: update the Info class with all avaliable clients
+                    //TODO: update the Info class with all available clients
                     clients.add(c);
                     c.start();
 
@@ -53,8 +52,6 @@ public class Server{
 
 
     class ClientThread extends Thread{
-
-
         Socket connection;
         int count;
         ObjectInputStream in;
@@ -74,9 +71,9 @@ public class Server{
                 catch(Exception e) {}
             }
         }
-        //TODO: Make function that takes an info class and will update clients recieved from the client, look at update clients
-        //TODO: ^^ how to do it
-        //TODO: Make function that send new list of avaliable of clients
+
+        //TODO: Make function that takes an info class and will update clients received from the client, look at update clients how to do it
+        //TODO: Make function that send new list of available of clients
 
         public void run(){
 
@@ -95,6 +92,7 @@ public class Server{
                 try {
                     //TODO: Change the below statement to accept an Info class
                     String data = in.readObject().toString();
+                    String username = "client " + count;
                     callback.accept("client: " + count + " sent: " + data);
                     updateClients("client #"+count+" said: "+data);
 
@@ -103,13 +101,12 @@ public class Server{
                     callback.accept("OOOOPPs...Something wrong with the socket from client: " + count + "....closing down!");
                     updateClients("Client #"+count+" has left the server!");
                     clients.remove(this);
-                    //TODO: Update avaliable client list
+                    //TODO: Update available client list
+
                     break;
                 }
             }
         }//end of run
-
-
     }//end of client thread
 }
 
